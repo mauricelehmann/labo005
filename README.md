@@ -14,7 +14,7 @@ Le programme doit gérer les entrées non valides en affichant "Entree non valid
 
 
 
-Les entrées utilisateurs doivent être validées. En cas d'entrée non conforme (entier non lisible ou hors bornes) affichez "Entree non valide" et redemandez l'entrée. \n
+Les entrées utilisateurs doivent être validées. En cas d'entrée non conforme (entier non lisible ou hors bornes) affichez "Entree non valide" et redemandez l'entrée. <br>
 Découpez votre code en fonctions réalisant des tâches simples. 
 Commentez les prototypes de vos fonctions (style Doxygen)
 Ecrivez une fonction qui reçoit en paramètres un message de question, un message d'erreur, et les bornes min et max à vérifier, et boucle jusqu'à ce que l'utilisateur entre une entrée correcte.
