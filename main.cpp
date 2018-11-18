@@ -16,8 +16,6 @@
  #include <string>
  using namespace std;
 
-
-
 /*
 
 OK - Ecrivez une fonction qui reçoit en paramètres un message de question, un message d'erreur, et les bornes min et max à vérifier, et boucle jusqu'à ce que l'utilisateur entre une entrée correcte.
@@ -37,7 +35,6 @@ Maurice - Ecrivez une fonction qui affiche un mois donné et qui prend entre aut
 //TODO : Doxygene
 void saisieUtilisateur(unsigned int& annee, unsigned int& lundi);
 bool anneebissextile( unsigned int annee);
-int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned int premierJourDuMois);
 /**
  Affichage de texte centré
 
@@ -55,15 +52,30 @@ Dértermine quel jour de la semaine est le 1er janvier de l'année choisie
 */
 unsigned int jourDeLAn (int an);
 
-//TODO : A faire ! Dois afficher une string "L M M J S D", ou "D L M M J S D", selon le premier jour de la semaine défini
-void afficherJoursDeLaSemaine(const unsigned int& premierJour);
+/**
+ Affichage du texte de la semaine
+
+ @param positionPremierJour jour de la semain a affihcer en premier (1 = L, 7 = D)
+
+ @return rien
+ */
+ void affichageSemaine(unsigned positionPremierJour);
+ /**
+  * Affiche un mois donnée
+  * @param  nomMois           string , nom du mois à afficher
+  * @param  nbJourMois        uint , nombre de jour dans le mois
+  * @param  premierJourDuMois uint, premier jour du mois
+  * @param premierJourDeLaSemaine uint, défini par quel jour on commence la semaine
+  * @return                   premier jour du mois suivant
+  */
+ int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned int premierJourDuMois, unsigned int premierJourDeLaSemaine);
 
 int main(){
 
     const unsigned int NB_MOIS = 12;
     unsigned int annee = 2017;
-    unsigned int lundi = 0;
-    //saisieUtilisateur(annee,lundi);
+    unsigned int premierJourDeLaSemaine = 1;
+    //saisieUtilisateur(annee,premierJourDeLaSemaine);
     unsigned int premierJourDuMois = jourDeLAn(annee);
 
     //Données relatives aux mois
@@ -79,29 +91,30 @@ int main(){
     unsigned int listeNombreJoursDesMois[NB_MOIS] = {31,nbJoursFevrier,31,30,31,30,31,31,30,31,30,31};
 
     //On affiche tout les mois
-    for(int mois = 1 ; mois <= 2 ; mois++){
+    for(int mois = 1 ; mois <= NB_MOIS ; mois++){
+
         //On affiche le mois ET on assigne le prochain premier jour du mois suivant
-        premierJourDuMois = afficherMois(listeNomMois[mois-1],listeNombreJoursDesMois[mois-1],premierJourDuMois);
+        premierJourDuMois = afficherMois(listeNomMois[mois-1],listeNombreJoursDesMois[mois-1],premierJourDuMois,premierJourDeLaSemaine);
         cout << endl ;
     }
 
     return EXIT_SUCCESS;
 }
 
-int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned int premierJourDuMois){
+int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned int premierJourDuMois, unsigned int premierJourDeLaSemaine){
 
     const unsigned short int LARGEUR    = 21;
     const unsigned short int NB_COLONNE = 7;
     const unsigned short int NB_ESP     = 2; //Nombre d'espace du setw()
 
     //Valeur retournée par la fonction, correspond au numéro du premier jour du mois suivant
-    unsigned int prochainPremierJour;
+    unsigned int prochainPremierJour = 2 ;
     unsigned int nbDecalage;
 
     //Entete - nom du mois
     centrageText(nomMois, LARGEUR);
-    //Todo : afficher l'entete des jours de la semaine avec la fonction
-    cout << "L  M  M  J  V  S  D" << endl; //TODO : A supprimer
+    //Entete - jour de la semaine
+    affichageSemaine(premierJourDeLaSemaine);
     //On calcule le nombre de décalage à droite pour le premie jour du mois
     //Lundi [2] , Mardi[3], Mercredi[4], Jeudi[5], vendredi[6], Samedi[0], Dimanche[1]
     if( premierJourDuMois >= 2 ){
@@ -114,7 +127,7 @@ int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned 
 
     //Affiche le décalage
     for(int espace = 0 ; espace < nbDecalage ; espace++){
-        cout << setw(NB_ESP + 1) << " ";
+         cout << setw(NB_ESP + 1) << " ";
     }
     //Affichage des jours
     for(unsigned int jour = 1 ; jour <= nbJourMois ; jour++){
@@ -124,6 +137,7 @@ int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned 
             cout << endl ;
         }
     }
+    cout << "DEBUG : " << nbJourMois + nbDecalage << endl ;
     return prochainPremierJour;
 }
 
@@ -173,4 +187,24 @@ void centrageText(string texte, unsigned largeur)
   unsigned date = an - 1;
 
   return ( JOUR + 2 * MOIS + ((3 * (MOIS + 1))/ 5) + date + (date / 4) - (date / 100) + (date / 400) + 2 ) % 7;
+}
+
+void affichageSemaine(unsigned positionPremierJour)
+{
+   //character de remplissage
+   char remplissage = '.';
+   //nombre de character de remplissage
+   unsigned largeurRemplissage = 2;
+   //Jousrs de la semaines (L-D)
+   string semaine = "LMMJVSD";
+   positionPremierJour--;
+
+   for (int i = 0; i < semaine.length(); i++)
+   {
+      //Affichage des majuscules représentant les jours (L-D)
+      cout << remplissage << setfill(remplissage) << setw(largeurRemplissage) << right << semaine[positionPremierJour];
+      //Passage au jour suivant
+      positionPremierJour = (positionPremierJour + 1)% 7;
+   }
+   cout << endl;
 }
