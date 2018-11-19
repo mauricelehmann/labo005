@@ -68,7 +68,7 @@ unsigned int jourDeLAn (int an);
   * @param premierJourDeLaSemaine uint, défini par quel jour on commence la semaine
   * @return                   premier jour du mois suivant
   */
- int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned int premierJourDuMois, unsigned int premierJourDeLaSemaine);
+int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned int premierJourDuMois, unsigned int premierJourDeLaSemaine);
 
 int main(){
 
@@ -137,7 +137,8 @@ int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned 
             cout << endl ;
         }
     }
-    cout << "DEBUG : " << nbJourMois + nbDecalage << endl ;
+    //TODO : Calculer le prochain premier jour du mois suivant !
+    prochainPremierJour = ((nbJourMois+nbDecalage) % NB_COLONNE ) + NB_ESP ;
     return prochainPremierJour;
 }
 
@@ -204,7 +205,7 @@ void affichageSemaine(unsigned positionPremierJour)
       //Affichage des majuscules représentant les jours (L-D)
       cout << remplissage << setfill(remplissage) << setw(largeurRemplissage) << right << semaine[positionPremierJour];
       //Passage au jour suivant
-      positionPremierJour = (positionPremierJour + 1)% 7;
+      positionPremierJour = (positionPremierJour + 1) % 7;
    }
    cout << endl;
 }
