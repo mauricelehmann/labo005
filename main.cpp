@@ -73,11 +73,11 @@ int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned 
 int main(){
 
     const unsigned int NB_MOIS = 12;
-    unsigned int annee = 2017;
-    unsigned int premierJourDeLaSemaine = 1;
-    //saisieUtilisateur(annee,premierJourDeLaSemaine);
-    unsigned int premierJourDuMois = jourDeLAn(annee);
+    unsigned int annee ;
+    unsigned int premierJourDeLaSemaine ;
+    saisieUtilisateur(annee,premierJourDeLaSemaine);
 
+    unsigned int premierJourDuMois = jourDeLAn(annee);
     //Données relatives aux mois
     unsigned int nbJoursFevrier = 28 ;
     //Si l'année est bissextile, Fevrier a 29 jours
@@ -90,12 +90,16 @@ int main(){
 
     unsigned int listeNombreJoursDesMois[NB_MOIS] = {31,nbJoursFevrier,31,30,31,30,31,31,30,31,30,31};
 
+
+    cout << endl ;
+    //MAL CENTRE ??? TODO
+    centrageText(to_string(annee),21);
+    cout << endl << endl ;
     //On affiche tout les mois
     for(int mois = 1 ; mois <= NB_MOIS ; mois++){
-
         //On affiche le mois ET on assigne le prochain premier jour du mois suivant
         premierJourDuMois = afficherMois(listeNomMois[mois-1],listeNombreJoursDesMois[mois-1],premierJourDuMois,premierJourDeLaSemaine);
-        cout << endl ;
+        cout << endl << endl ;
     }
 
     return EXIT_SUCCESS;
@@ -123,15 +127,13 @@ int afficherMois(const string& nomMois, const unsigned int& nbJourMois,unsigned 
         nbDecalage = premierJourDuMois + 5;
     }
 
-    //TODO : Remodifier le nbDecalage par rapport au nouveau "lundi" spécifié
-
     //Affiche le décalage
     for(int espace = 0 ; espace < nbDecalage ; espace++){
          cout << setw(NB_ESP + 1) << " ";
     }
     //Affichage des jours
     for(unsigned int jour = 1 ; jour <= nbJourMois ; jour++){
-        cout << setw(NB_ESP) << jour << " " ;
+        cout <<" " << setw(NB_ESP) << jour ;
         //Retour à la ligne
         if(!((jour+nbDecalage) % 7)){
             cout << endl ;
@@ -152,26 +154,25 @@ bool anneebissextile (unsigned int annee) {
 
 void saisieUtilisateur(unsigned int& annee, unsigned int& lundi){
 
-    cout << "Quelle annee voulez-vous afficher? (1600-3000)" ;
+    cout << "Quelle annee voulez-vous afficher? (1600-3000) " ;
     cin >> annee;
     while (annee < 1600 or annee > 3000) {
      cout << "Entree non valide" << endl;
-     cout << "Quelle annee voulez-vous afficher? (1600-3000)" ;
+     cout << "Quelle annee voulez-vous afficher? (1600-3000) " ;
      cin >> annee;
     }
-    cout << "Quel jour de la semaine est le lundi? (1-7)" ;
+    cout << "Quel jour de la semaine est le lundi? (1-7) " ;
     cin >> lundi;
     while (lundi < 1 or lundi > 7) {
         cout << "Entree non valide" << endl;
-        cout << "Quel jour de la semaine est le lundi? (1-7)" ;
+        cout << "Quel jour de la semaine est le lundi? (1-7) " ;
         cin >> lundi;
     }
 }
 
-void centrageText(string texte, unsigned largeur)
- {
+void centrageText(string texte, unsigned largeur){
     //character de remplissage
-    char remplissage = '.';
+    char remplissage = ' ';
     //largeur du bord à gauche
     int largeurGauche = ((largeur - texte.length())/2);
     //largeur du bord à droite
@@ -181,6 +182,7 @@ void centrageText(string texte, unsigned largeur)
          << remplissage << texte << setfill(remplissage) << setw(largeurGauche)
          << remplissage << endl;
  }
+
  unsigned jourDeLAn (int an) {
 
   unsigned const JOUR = 1;
@@ -190,10 +192,9 @@ void centrageText(string texte, unsigned largeur)
   return ( JOUR + 2 * MOIS + ((3 * (MOIS + 1))/ 5) + date + (date / 4) - (date / 100) + (date / 400) + 2 ) % 7;
 }
 
-void affichageSemaine(unsigned positionPremierJour)
-{
+void affichageSemaine(unsigned positionPremierJour){
    //character de remplissage
-   char remplissage = '.';
+   char remplissage = ' ';
    //nombre de character de remplissage
    unsigned largeurRemplissage = 2;
    //Jousrs de la semaines (L-D)
